@@ -21,5 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('', include('hw_app.urls')),
+
+
     #patterns('',(r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),)
 ]
