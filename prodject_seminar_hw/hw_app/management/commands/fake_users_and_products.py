@@ -12,12 +12,12 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         count = kwargs.get('count')
         for i in range(1, count + 1):
-            product = Product(name=f'Кроссовки{i}', description=f'It\'s just a great кроссовки, you need to buy it soon.', price = f'{i}000', quantity = f'{i*i}', data_addition = date.today())
+            product = Product(name=f'Куртка{i}', description=f'It\'s just a great Куртка, you need to buy it soon.', price = f'{i}000', quantity = f'{i*i}', data_addition = date.today())
             product.save()
             self.stdout.write(f'{product}')
 
         for i in range(1, count + 1):
-            user = User(name=f'Колян{i}', email=f'mail{i}@mail.ru', telephone = f'899900000{i}', address = f'Address {i}', data_registered = date.today)
+            user = User(name=f'Андрей{i}', email=f'mail{i}@mail.ru', telephone = f'899900000{i}', address = f'Address {i}', data_registered = date.today)
             user.save()
             self.stdout.write(f'{user}')
             # for j in range(1, count + 1):

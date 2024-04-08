@@ -153,6 +153,138 @@ def delete_product(request, product_id):
 
 #дз Задание №6, №7 фото хранить в базе ссылкой, а фото в медиа
 
+# def add_product(request):
+#     message = ''
+#     filename = None
+#     if request.method == 'POST':
+#         form = ProductForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             name = form.cleaned_data['name']
+#             description = form.cleaned_data['description']
+#             price = form.cleaned_data['price']
+#             quantity = form.cleaned_data['quantity']
+#             if Product.objects.filter(name=name).exists():
+#                 message = f'Товар с названием {name} уже добавлен, введите новый'
+#                 logger.info(f'Отказ в добавлении дубля товара {name=}, {description=}, {price=}.')
+#             else:
+#                 logger.info(f'Добавлен товар {name=}, {description=}, {price=}.')
+#                 product = Product(name=name, description=description, price=price, quantity=quantity, image=filename)
+#                 product.save()
+#                 message = f'Товар {name} добавлен'
+#                 #messages.success(request, message)
+#
+#     else:
+#         form = ProductForm()
+#         message = 'Добавление нового товара. Введите данные о товаре'
+#     return render(request, "hw_app/add_product.html", {'form': form, 'message': message})
+
+# def add_product(request):
+#     message = ''
+#     filename = None
+#     if request.method == 'POST':
+#         form = ProductForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             name = form.cleaned_data['name']
+#             description = form.cleaned_data['description']
+#             price = form.cleaned_data['price']
+#             quantity = form.cleaned_data['quantity']
+#             # image = form.cleaned_data['image']
+#             # fs = FileSystemStorage()
+#             # fs.save(image.name, image)
+#             #image = form.cleaned_data['image']
+#             if 'image' in request.FILES:  # Проверка наличия файла image
+#                 image = form.cleaned_data['image']
+#                 # Сохраняем файл, указывая путь назначения
+#                 filename = 'products/' + image.name
+#                 product = Product(name=name, description=description, price=price, quantity=quantity)
+#                 product.save()
+#                 filename = 'products/' + image.name
+#                 fs = FileSystemStorage()
+#                 fs.save(filename, image)
+#                 product.image = filename
+#                 product.save()
+#             else:
+#                 product = Product(name=name, description=description, price=price, quantity=quantity)
+#                 product.save()
+#                 message = f'Товар {name} добавлен'
+#             # if Product.objects.filter(name=name).exists():
+#             #     message = f'Товар с названием {name} уже добавлен, введите новый'
+#             #     logger.info(f'Отказ в добавлении дубля товара {name=}, {description=}, {price=}.')
+#             # else:
+#             #     logger.info(f'Добавлен товар {name=}, {description=}, {price=}.')
+#             #     product = Product(name=name, description=description, price=price, quantity=quantity, image=filename)
+#             #     product.save()
+#             #     message = f'Товар {name} добавлен'
+#                 #messages.success(request, message)
+#
+#     else:
+#         form = ProductForm()
+#         message = 'Добавление нового товара. Введите данные о товаре'
+#     return render(request, "hw_app/add_product.html", {'form': form, 'message': message})
+
+
+# def add_product(request):#рабочий
+#     message = ''
+#     if request.method == 'POST':
+#         form = ProductForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             name = form.cleaned_data['name']
+#             description = form.cleaned_data['description']
+#             price = form.cleaned_data['price']
+#             quantity = form.cleaned_data['quantity']
+#             if 'image' in request.FILES:
+#                 image = form.cleaned_data['image']
+#                 filename = 'products/' + image.name
+#                 try:
+#                     product = Product.objects.get(name=name)
+#                     message = f'Товар с названием {name} уже добавлен, введите новый'
+#                     logger.info(f'Отказ в добавлении дубля товара {name=}, {description=}, {price=}.')
+#                 except Product.DoesNotExist:
+#                     fs = FileSystemStorage()
+#                     fs.save(filename, image)
+#                     product = Product(name=name, description=description, price=price, quantity=quantity, image=filename)
+#                     product.save()
+#                     message = f'Товар {name} добавлен'
+#             else:
+#                 try:
+#                     product = Product.objects.get(name=name)
+#                     message = f'Товар с названием {name} уже добавлен, введите новый2'
+#                     logger.info(f'Отказ в добавлении дубля товара {name=}, {description=}, {price=}.')
+#                 except Product.DoesNotExist:
+#                     product = Product(name=name, description=description, price=price, quantity=quantity)
+#                     product.save()
+#                     message = f'Товар {name} добавлен2'
+#     else:
+#         form = ProductForm()
+#         message = 'Добавление нового товара. Введите данные о товаре'
+#     return render(request, "hw_app/add_product.html", {'form': form, 'message': message})
+#
+# def edit_product(request):
+#     if request.method == 'POST':
+#         form = EditProductForm(request.POST)
+#         if form.is_valid():
+#             id = form.cleaned_data['id']
+#             name = form.cleaned_data['name']
+#             description = form.cleaned_data['description']
+#             price = form.cleaned_data['price']
+#             quantity = form.cleaned_data['quantity']
+#             try:
+#                 product = Product.objects.get(id=id)
+#                 product.name = name
+#                 product.description = description
+#                 product.price = price
+#                 product.quantity = quantity
+#                 product.save()
+#                 message = f'Товар {name} отредактирован'
+#                 logger.info(f'Товар {name=} был отредактирован')
+#             except Product.DoesNotExist:
+#                 message = f'Товар с id {id} и названием {name} не найден'
+#                 logger.info(f'Отказ в редактировании товара с id {id} и названием {name}')
+#
+#     else:
+#         form = ProductForm()
+#         message = 'Выберите товар для редактирования'
+#     return render(request, "hw_app/edit_product.html", {'form': form, 'message': message})
 
 def add_product(request):
     message = ''
@@ -193,8 +325,6 @@ def add_product(request):
         message = 'Добавление нового товара. Введите данные о товаре'
     return render(request, "hw_app/add_product.html", {'form': form, 'message': message})
 
-# Измените модель продукта, добавьте поле для хранения
-# фотографии продукта.
 def get_selected_product(request):
     product_id = request.GET.get('product_id', None)
     response_data = {}
@@ -203,7 +333,6 @@ def get_selected_product(request):
     response_data['description'] = product.description
     response_data['price'] = product.price
     response_data['quantity'] = product.quantity
-    response_data['image_url'] = product.image.url
     #message = f"Выбран товар для редактирования {product.name}"
     return JsonResponse(response_data)
 
@@ -224,8 +353,17 @@ def edit_product(request):
             })
             message = f"Выбран товар для редактирования {form.name}"
             return render(request, "hw_app/edit_product.html",
-                          {'form': form, 'message': message, 'image_url': product.image.url})
-
+                          {'form': form, 'message': message})
+            #get_selected_product(request)
+            # selected_product_id = int(product_id)
+            # response_data = {}
+            # product = Product.objects.get(pk=product_id)
+            # response_data['name'] = product.name
+            # response_data['description'] = product.description
+            # response_data['price'] = product.price
+            # response_data['quantity'] = product.quantity
+            #
+            # return JsonResponse(response_data, message)
         else:
             form = EditProductForm()
             message = 'Выберите товар для редактирования'
@@ -247,7 +385,6 @@ def edit_product(request):
 
     return render(request, "hw_app/edit_product.html", {'form': form, 'message': message, '_product_id': product_id})
 
-
-
-
+# Измените модель продукта, добавьте поле для хранения
+# фотографии продукта.
 

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class User(models.Model):
     name = models.CharField(blank=False, max_length=100)
@@ -17,6 +18,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     quantity = models.IntegerField()
     data_addition = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='media/', null=True, blank=True, default=None)
 
     def __str__(self):
         return f'Product name: {self.name}, Description: {self.description}, Price: {self.price}, Data addition: {self.data_addition}'
