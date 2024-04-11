@@ -4,7 +4,7 @@ from datetime import datetime
 class User(models.Model):
     name = models.CharField(blank=False, max_length=100)
     email = models.EmailField(blank=False)
-    telephone = models.IntegerField(blank=False)
+    telephone = models.IntegerField(blank=False, max_length=15)
     address = models.CharField(max_length=200)
     data_registered = models.DateTimeField(auto_now_add=True)
 
@@ -28,7 +28,6 @@ class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product)
     total_price = models.DecimalField(max_digits=8, decimal_places=2)
-    #date_ordered = models.DateTimeField()
     date_ordered = models.DateTimeField(auto_now_add=True)
 
 # Create your models here.
